@@ -1,6 +1,24 @@
 <section class="HEADER">
-  <div class="container-mx-auto py-4">
-    <article class="cityes"></article>
-    <article class="selected-city"></article>
+  <div class="container mx-auto">
+    <div class="header-container flex flex-col p-4 w-full">
+      <article
+        class="cityes w-full flex flex-wrap align-middle md:flex-nowrap items-center gap-4 justify-between"
+      >
+        <app-city-weather />
+        <app-city-weather />
+        <app-city-weather />
+        <app-city-weather />
+      </article>
+      <article class="selected-city w-full ">
+        <div class="container mx-auto py-4">
+          <div class="inputs flex items-center justify-center align-middle">
+            <div class="dropdown"></div>
+            <div class="serach">
+              <input type="text" placeholder="Search" class="text-center" />
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
