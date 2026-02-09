@@ -9,13 +9,13 @@
         <app-city-weather />
         <app-city-weather />
       </article>
-      <article class="selected-city w-full ">
-        <div class="container mx-auto py-4">
-          <div class="inputs flex items-center justify-center align-middle">
-            <div class="dropdown"></div>
-            <div class="serach">
-              <input type="text" placeholder="Search" class="text-center" />
-            </div>
+      <article class="selected-city w-full items-center flex">
+        <div class="inputs w-full flex flex-col md:flex-row">
+          <div class="dropdown w-full md:w-auto">
+            <app-dropdown />
+          </div>
+          <div class="serach ">
+            <input type="text" placeholder="Search" class="text-center w-full p-4" />
           </div>
         </div>
       </article>
