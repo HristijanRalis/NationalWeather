@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { MainLayout } from './layout/layouts/main-layout/main-layout';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,6 @@ import { MainLayout } from './layout/layouts/main-layout/main-layout';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class AppComponent {
   protected readonly title = signal('NationalWeather');
 }
