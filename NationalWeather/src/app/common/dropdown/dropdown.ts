@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { value } from '@primeuix/themes/aura/knob';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
@@ -10,20 +11,31 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
   styleUrls: ['./dropdown.css'], // fixed
 })
 export class Dropdown implements OnInit {
+  @Output() continentSelected = new EventEmitter<string>();
+
   selectedItem: any;
   filteredItems: any[] = [];
   items: any[] = [];
 
   ngOnInit() {
-    for (let i = 0; i < 10; i++) {
-      this.items.push({ label: 'Item ' + i, value: 'Item ' + i });
-    }
+    this.items = [
+      { label: 'Europe', value: 'Europe' },
+      { label: 'Asia', value: 'Asia' },
+      { label: 'Africa', value: 'Africa' },
+      { label: 'South America', value: 'South America' },
+      { label: 'North America', value: 'North America' },
+      { label: 'Australia', value: 'Australia' },
+    ];
   }
 
   filterItems(event: any) {
     const query = event.query.toLowerCase();
-    this.filteredItems = this.items.filter((item) =>
-      item.label.toLowerCase().startsWith(query)
-    );
+    this.filteredItems = this.items.filter((item) => item.label.toLowerCase().startsWith(query));
+
+  }
+
+  onSelect(event: any) {
+    console.log("Selected: ", event.value)
+    this.continentSelected.emit(event.value);
   }
 }

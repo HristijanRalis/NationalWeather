@@ -5,6 +5,8 @@
     [suggestions]="filteredItems"
     [virtualScrollItemSize]="34"
     (completeMethod)="filterItems($event)"
+    (onSelect)="onSelect($event)"
+
     optionLabel="label"
     [dropdown]="true"
   />
