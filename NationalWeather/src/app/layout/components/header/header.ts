@@ -2,15 +2,18 @@ import { Component, effect, signal } from '@angular/core';
 import { CityWeather } from '../../../common/city-weather/city-weather';
 import { Dropdown } from '../../../common/dropdown/dropdown';
 import { WeatherApi } from '../../../api/weather-api';
+import { CitySearch } from '../../../common/city-search/city-search';
+import { CityService } from '../../../city';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CityWeather, Dropdown],
+  imports: [CityWeather, Dropdown, CitySearch],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
+  selectedCity = signal('Bitola');
   selectedContinent = signal('');
   cities = signal<string[]>([]);
 
@@ -23,12 +26,8 @@ export class Header {
     'South America': ['São Paulo', 'Buenos Aries', 'Lima', 'Bogota', 'Santiago'],
   };
 
-  constructor(private weatherService: WeatherApi) {}
-  onContinentChange(continent: string) {
-    console.log('Continent selected:', continent);
-    console.log('Cities found:', this.continentCities[continent]);
-    this.selectedContinent.set(continent);
-    this.cities.set(this.continentCities[continent] ?? []);
-    console.log('Cities for', continent, ':', this.cities());
+  constructor(private cityService: CityService) {}
+  onCityChange(city: string) {
+    this.cityService.selectedCity.set(city);
   }
 }

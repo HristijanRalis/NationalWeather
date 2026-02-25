@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { WeatherApi } from '../../../api/weather-api';
 
 @Component({
@@ -9,6 +9,7 @@ import { WeatherApi } from '../../../api/weather-api';
   styleUrl: './sidebar.css',
 })
 export class Sidebar implements OnInit {
+  @Input() city: string = 'Bitola';
   myWeather: any;
   temperature: number = 0;
   name: string = '';
@@ -17,18 +18,28 @@ export class Sidebar implements OnInit {
   constructor(private weatherService: WeatherApi) {}
 
   ngOnInit(): void {
-    this.weatherService.getWeather('Bitola', 'MK').subscribe({
+    if (this.city) {
+      this.getWeather(this.city);
+    }
+  }
+
+  ngOnChanges(): void {
+    if (this.city) {
+      this.getWeather(this.city);
+    }
+  }
+
+  getWeather(city: string) {
+    this.weatherService.getWeather(city).subscribe({
       next: (res) => {
         this.myWeather = res;
-        console.log(this.myWeather);
         this.temperature = this.myWeather.main.temp;
         this.name = this.myWeather.name;
         this.country = this.myWeather.sys.country;
         this.clouds = this.myWeather.weather[0].main;
       },
-      error: (err) => {
-        console.error(err);
-      },
+
+      error: (err) => console.error(err),
     });
   }
 }

@@ -1,7 +1,7 @@
 .p-autocomplete-dropdown {
   color: yellow!;
 }
-#select-continent{
+#select-continent {
   padding: 5px;
-
+  border: none;
 }

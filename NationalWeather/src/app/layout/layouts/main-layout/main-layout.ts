@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Header } from "../../components/header/header";
-import { Sidebar } from "../../components/sidebar/sidebar";
-import { AdditionalInfo } from "../../components/additional-info/additional-info";
+import { Header } from '../../components/header/header';
+import { Sidebar } from '../../components/sidebar/sidebar';
+import { AdditionalInfo } from '../../components/additional-info/additional-info';
+import { CityService } from '../../../city';
 
 @Component({
   selector: 'app-main-layout',
@@ -10,5 +11,5 @@ import { AdditionalInfo } from "../../components/additional-info/additional-info
   styleUrl: './main-layout.css',
 })
 export class MainLayout {
-
+  constructor(public cityService: CityService) {}
 }
