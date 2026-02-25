@@ -25,10 +25,10 @@ export class Header {
 
   constructor(private weatherService: WeatherApi) {}
   onContinentChange(continent: string) {
-     console.log('Continent selected:', continent);
-  console.log('Cities found:', this.continentCities[continent]);
+    console.log('Continent selected:', continent);
+    console.log('Cities found:', this.continentCities[continent]);
     this.selectedContinent.set(continent);
-    this.cities.set(this.continentCities[continent] ?? [] );
-     console.log('Cities for', continent, ':', this.cities());
+    this.cities.set(this.continentCities[continent] ?? []);
+    console.log('Cities for', continent, ':', this.cities());
   }
 }

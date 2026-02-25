@@ -1,13 +1,19 @@
-<div class="card flex justify-center">
-  <p-autocomplete
+<div class="card flex items-center gap-3">
+  <label>Region</label>
+  <!-- <p-autocomplete
     [(ngModel)]="selectedItem"
     [virtualScroll]="true"
     [suggestions]="filteredItems"
     [virtualScrollItemSize]="34"
     (completeMethod)="filterItems($event)"
     (onSelect)="onSelect($event)"
-
     optionLabel="label"
     [dropdown]="true"
-  />
+  /> -->
+
+  <select id="select-continent">
+    @for (continent of continents; track continent.value) {
+      <option [value]="continent.value">{{ continent.label }}</option>
+    }
+  </select>
 </div>

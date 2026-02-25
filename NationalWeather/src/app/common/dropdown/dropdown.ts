@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { value } from '@primeuix/themes/aura/knob';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
@@ -15,10 +14,10 @@ export class Dropdown implements OnInit {
 
   selectedItem: any;
   filteredItems: any[] = [];
-  items: any[] = [];
+  continents: any[] = [];
 
   ngOnInit() {
-    this.items = [
+    this.continents = [
       { label: 'Europe', value: 'Europe' },
       { label: 'Asia', value: 'Asia' },
       { label: 'Africa', value: 'Africa' },
@@ -30,7 +29,7 @@ export class Dropdown implements OnInit {
 
   filterItems(event: any) {
     const query = event.query.toLowerCase();
-    this.filteredItems = this.items.filter((item) => item.label.toLowerCase().startsWith(query));
+    this.filteredItems = this.continents.filter((item) => item.label.toLowerCase().startsWith(query));
 
   }
 
