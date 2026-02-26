@@ -13,21 +13,18 @@ import { CityService } from '../../../city';
   styleUrl: './header.css',
 })
 export class Header {
-  selectedCity = signal('Bitola');
-  selectedContinent = signal('');
-  cities = signal<string[]>([]);
+  selectedCity: string = 'Bitola';
+  // selectedContinent = signal('');
+  // cities = signal<string[]>([]);
 
-  continentCities: { [key: string]: string[] } = {
-    Europe: ['Skopje', 'London', 'Berlin', 'Paris', 'Belgrade'],
-    Asia: ['Ankara', 'Moscow', 'New Delhi', 'Seoul', 'Beijing'],
-    Africa: ['Cairo', 'Lagos', 'Tunis', 'Cape Town', 'Nairobi'],
-    Australia: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide'],
-    'North America': ['New York', 'Toronto', 'Mexico City', 'Chicago', 'Los Angeles'],
-    'South America': ['São Paulo', 'Buenos Aries', 'Lima', 'Bogota', 'Santiago'],
-  };
+  // continentCities: { [key: string]: string[] } = {
+  //   Europe: ['Skopje', 'London', 'Berlin', 'Paris', 'Belgrade'],
+  //   Asia: ['Ankara', 'Moscow', 'New Delhi', 'Seoul', 'Beijing'],
+  //   Africa: ['Cairo', 'Lagos', 'Tunis', 'Cape Town', 'Nairobi'],
+  //   Australia: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide'],
+  //   'North America': ['New York', 'Toronto', 'Mexico City', 'Chicago', 'Los Angeles'],
+  //   'South America': ['São Paulo', 'Buenos Aries', 'Lima', 'Bogota', 'Santiago'],
+  // };
 
-  constructor(private cityService: CityService) {}
-  onCityChange(city: string) {
-    this.cityService.selectedCity.set(city);
-  }
+  
 }

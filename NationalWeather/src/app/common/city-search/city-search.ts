@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CityService } from '../../city';
 @Component({
   selector: 'app-city-search',
   standalone: true,
@@ -8,13 +9,5 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './city-search.css',
 })
 export class CitySearch {
-  cityName: string = '';
-
-  @Output() citySelected = new EventEmitter<string>();
-
-  searchCity() {
-    if (this.cityName.trim()) {
-      this.citySelected.emit(this.cityName.trim());
-    }
-  }
+ 
 }
