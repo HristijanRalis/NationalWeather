@@ -4,4 +4,14 @@
 
 body {
   font-family: 'Cascadia Mono', sans-serif;
+  background: url('/assets/img/mainBackground.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.BlurBackground {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  color: white;
+  border-radius: 25px;
 }

@@ -1,4 +1,4 @@
-<section id="HEADER">
+<section id="HEADER" class="BlurBackground">
   <div class="container mx-auto">
     <div class="header-container flex flex-col p-4 w-full">
       <article
@@ -16,7 +16,20 @@
             <app-dropdown />
           </div>
           <!-- Here is input  -->
-          <app-city-search  />
+          <div class="serach w-full md:w-auto">
+            <input
+              #cityInput
+              type="text"
+              placeholder="Find City"
+              class="searchCity"
+              [value]="cityService.selectedCity()"
+              (keyup.enter)="onCityChange(cityInput.value)"
+            />
+            <!-- <button (click)="onCityChange(cityInput.value)">
+              <fa-icon [icon]="'magnifying-glass'"></fa-icon>
+            </button> -->
+          </div>
+          <!-- (
         </div>
       </article>
     </div>
@@ -25,3 +38,8 @@
 
 
 <!-- (cityFromSearch)="onCityChange($event)" -->
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

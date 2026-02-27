@@ -1,19 +1,19 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CityWeather } from '../../../common/city-weather/city-weather';
-import { Dropdown } from '../../../common/dropdown/dropdown';
-import { WeatherApi } from '../../../api/weather-api';
-import { CitySearch } from '../../../common/city-search/city-search';
 import { CityService } from '../../../city';
+import { Dropdown } from '../../../common/dropdown/dropdown';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CityWeather, Dropdown, CitySearch],
+  imports: [CityWeather, Dropdown, FontAwesomeModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
-  selectedCity: string = 'Bitola';
+  cityService = inject(CityService);
+
   // selectedContinent = signal('');
   // cities = signal<string[]>([]);
 
@@ -26,5 +26,10 @@ export class Header {
   //   'South America': ['São Paulo', 'Buenos Aries', 'Lima', 'Bogota', 'Santiago'],
   // };
 
-  
+  onCityChange(city: string) {
+    const enteredCity = city.trim();
+
+    if (!enteredCity) return;
+    this.cityService.selectedCity.set(enteredCity);
+  }
 }

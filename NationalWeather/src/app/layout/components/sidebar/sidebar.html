@@ -1,13 +1,17 @@
-<div class="SIDEBAR bg-gray-600 h-full">
+<div id="SIDEBAR" class="BlurBackground h-full p-4">
   <div class="container mx-auto py-4">
     <div class="sidebarContent w-full flex-col">
       <div class="sideBarInfo flex flex-col items-center">
         <h2 class="text-4xl">{{ name }} {{ country }}</h2>
-        <p class="text-2xl">02-08-2026</p>
+        <p class="text-xl my-4">{{ temperature_max }}°C / {{ temperature_min }}°C</p>
+        <p class="text-xl">date{{ date }}</p>
+        <p class="text-xl">time {{ time }}</p>
+
+        <img [src]="image" [alt]="image" class="w-50 h-50" />
+
         <p class="text-1xl">Monday</p>
         <p class="text-1xl">{{ clouds }}</p>
         <span>Icon</span>
-        <p class="text-3xl">Temperature {{ temperature }} °C</p>
       </div>
       <div class="sideBarDays">
         <p>List of days</p>
