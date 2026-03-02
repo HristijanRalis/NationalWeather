@@ -1,11 +1,12 @@
 import { Component, EventEmitter, OnInit, Output, effect, inject } from '@angular/core';
 import { WeatherApi } from '../../../api/weather-api';
 import { CityService } from '../../../city';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
@@ -20,35 +21,49 @@ export class Sidebar {
   country: string = '';
   clouds: string = '';
   date: string = '';
-  time: string = '';
+  time: Date = new Date();
   image: string = '';
-
+  pressure: string = '';
+  humidity: string = '';
+  windSpeed: string = '';
+  feelsLike: string = '';
   constructor() {
     this.getWeather(this.cityService.selectedCity());
     effect(() => {
       const city = this.cityService.selectedCity();
-
       this.getWeather(city);
+      this.time = new Date();
     });
   }
 
   getWeather(city: string) {
     if (!city) return;
     this.weatherService.getWeather(city).subscribe((res: any) => {
-      this.temperature_max = res.main.temp_max;
-      this.temperature_min = res.main.temp_min;
+      if (!res.list || res.list.length === 0) return;
 
-      this.name = res.name;
-      this.country = res.sys.country;
-      this.clouds = res.weather[0].main;
-      this.image = `https://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`;
-      this.date = res.list[0].dt_txt;
-      // if(res.list && res.list.length > 0){
-      //   const firstItem = res.list[0];
+      const firstItem = res.list.find((item: any) => item.main && item.weather?.length > 0);
 
-      //   this.date = firstItem.dt_txt.split(' ')[0];
-      //   this.time = firstItem.dt_txt.split(' ')[1];
-      // }
+      if (!firstItem) return;
+
+      this.temperature_max = firstItem.main.temp_max.toFixed(0);
+      this.temperature_min = firstItem.main.temp_min.toFixed(0);
+
+      this.name = res.city?.name || '';
+      this.country = res.city?.country || '';
+
+      this.clouds = firstItem.weather[0].main;
+      this.image = `https://openweathermap.org/img/wn/${firstItem.weather[0].icon}@2x.png`;
+
+      // Additional information
+      this.feelsLike =firstItem.main.feels_like ;
+      this.humidity= firstItem.main.humidity;
+      this.windSpeed= firstItem.wind.speed;
+      this.pressure= firstItem.main.pressure;
+      this.time = new Date();
+
+      if (firstItem.dt_txt) {
+        this.date = firstItem.dt_txt.split(' ')[0];
+      }
     });
   }
 }

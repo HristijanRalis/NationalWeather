@@ -1,3 +1,16 @@
-<div id="ADDITIONAL " class="BlurBackground h-full">
-  <div class="conteinter mx-auto py-4"></div>
+<div id="ADDITIONAL " class="h-full p-4 BlurBackground flex items-center justify-center">
+  <div class="conteinter mx-auto py-4">
+    <div
+      class="AdditionalContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mx-auto lg:justify-items-center justify-items-stretch"
+    >
+      <app-city-weather
+        *ngFor="let day of forecast"
+        [city]="city ?? cityService.selectedCity()"
+        [temperature]="day.main.temp"
+        [weather]="day.weather[0].main"
+        [icon]="day.weather[0].icon"
+        [date]="day.dt_txt"
+      ></app-city-weather>
+    </div>
+  </div>
 </div>
