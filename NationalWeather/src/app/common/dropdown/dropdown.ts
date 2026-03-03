@@ -7,7 +7,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
   standalone: true,
   imports: [AutoCompleteModule, FormsModule],
   templateUrl: './dropdown.html',
-  styleUrls: ['./dropdown.css'], // fixed
+  styleUrls: ['./dropdown.css'],
 })
 export class Dropdown implements OnInit {
   @Output() continentSelected = new EventEmitter<string>();
@@ -29,12 +29,13 @@ export class Dropdown implements OnInit {
 
   filterItems(event: any) {
     const query = event.query.toLowerCase();
-    this.filteredItems = this.continents.filter((item) => item.label.toLowerCase().startsWith(query));
-
+    this.filteredItems = this.continents.filter((item) =>
+      item.label.toLowerCase().startsWith(query),
+    );
   }
 
   onSelect(event: any) {
-    console.log("Selected: ", event.value)
-    this.continentSelected.emit(event.value);
+    console.log('Selected: ', event.value);
+    this.continentSelected.emit(event.value.value);
   }
 }

@@ -40,6 +40,10 @@ export class AdditionalInfo {
       });
 
       this.forecast = Object.values(dailyMap).slice(0, 5);
+
+ 
+
+      
     });
   }
 }

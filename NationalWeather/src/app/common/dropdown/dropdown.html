@@ -1,6 +1,7 @@
-<div class="card flex items-center gap-3">
+<div class="card w-full flex flex-col md:flex-row items-center gap-3">
   <label>Region</label>
   <p-autocomplete
+    class="w-full"
     [(ngModel)]="selectedItem"
     [virtualScroll]="true"
     [suggestions]="filteredItems"
@@ -10,7 +11,9 @@
     optionLabel="label"
     [dropdown]="true"
     placeholder="Select continent"
+    appendTo="body"
     [style]="{
+      width: '100%',
       'background-color': 'rgb(65, 65, 65)',
       padding: '10px',
       'border-radius': '15px',

@@ -1,0 +1,18 @@
+.arrow {
+  cursor: pointer;
+  animation: scaleArrow 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes scaleArrow {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
