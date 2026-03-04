@@ -31,10 +31,21 @@ export class Header {
   };
 
   onCityChange(city: string) {
-    const enteredCity = city.trim();
+    const trimCity = city.trim();
 
-    if (!enteredCity) return;
-    this.cityService.selectedCity.set(enteredCity);
+    const lettersRegex = /^[A-Za-zА-Ша-ш\s]+$/;
+
+    if (!lettersRegex.test(trimCity)) {
+      alert('Please enter valid city name (only letters)');
+      return;
+    }
+
+    if (trimCity.length <= 2) {
+      alert('City name is too short!!');
+      return;
+    }
+
+    this.cityService.selectedCity.set(trimCity);
   }
 
   constructor(private weatherApi: WeatherApi) {}
