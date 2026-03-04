@@ -3,6 +3,7 @@ import { WeatherApi } from '../../../api/weather-api.service';
 import { CityService } from '../../../services/city.service';
 import { DatePipe } from '@angular/common';
 
+//Sidebar Component
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -28,14 +29,11 @@ export class Sidebar {
   windSpeed: string = '';
   feelsLike: string = '';
   constructor() {
-  
     effect(() => {
       const city = this.cityService.selectedCity();
-      if(!city) return;
-      
-      this.weatherApi.getWeather(city).subscribe((res: any) => {
-    
-      })
+      if (!city) return;
+
+      this.weatherApi.getWeather(city).subscribe((res: any) => {});
     });
   }
 
@@ -58,10 +56,10 @@ export class Sidebar {
       this.image = `https://openweathermap.org/img/wn/${firstItem.weather[0].icon}@2x.png`;
 
       // Additional information
-      this.feelsLike =firstItem.main.feels_like ;
-      this.humidity= firstItem.main.humidity;
-      this.windSpeed= firstItem.wind.speed;
-      this.pressure= firstItem.main.pressure;
+      this.feelsLike = firstItem.main.feels_like;
+      this.humidity = firstItem.main.humidity;
+      this.windSpeed = firstItem.wind.speed;
+      this.pressure = firstItem.main.pressure;
       this.time = new Date();
 
       if (firstItem.dt_txt) {
