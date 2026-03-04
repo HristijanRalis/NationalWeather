@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { MainLayout } from './layout/layouts/main-layout/main-layout';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',

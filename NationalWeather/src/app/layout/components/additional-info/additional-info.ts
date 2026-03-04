@@ -1,6 +1,6 @@
 import { Component, effect, inject, Input, signal } from '@angular/core';
-import { WeatherApi } from '../../../api/weather-api';
-import { CityService } from '../../../city';
+import { WeatherApi } from '../../../api/weather-api.service';
+import { CityService } from '../../../services/city.service';
 import { CityWeather } from '../../../common/city-weather/city-weather';
 import { NgForOf } from '@angular/common';
 
@@ -12,23 +12,24 @@ import { NgForOf } from '@angular/common';
   styleUrl: './additional-info.css',
 })
 export class AdditionalInfo {
-  private weatherService = inject(WeatherApi);
+  weatherApi = inject(WeatherApi);
   cityService = inject(CityService);
 
   @Input() city?: string;
-  forecast: any[] = [];
+  forecast = signal<any[]>([]);
 
   constructor() {
     effect(() => {
-      const activeCity = this.city ?? this.cityService.selectedCity();
-      if (activeCity) {
-        this.loadForecast(activeCity);
-      }
+      const city = this.cityService.selectedCity();
+      if (!city) return;
+
+      this.weatherApi.getWeather(city).subscribe((res: any) => {
+        this.forecast.set(res.list || []);
+      });
     });
   }
-
   loadForecast(city: string) {
-    this.weatherService.getWeather(city).subscribe((res: any) => {
+    this.weatherApi.getWeather(city).subscribe((res: any) => {
       if (!res.list || res.list.length === 0) return;
 
       const dailyMap: { [key: string]: any } = {};
@@ -39,11 +40,7 @@ export class AdditionalInfo {
         }
       });
 
-      this.forecast = Object.values(dailyMap).slice(0, 5);
-
- 
-
-      
+      this.forecast.set(Object.values(dailyMap).slice(0, 5));
     });
   }
 }

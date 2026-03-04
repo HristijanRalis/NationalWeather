@@ -1,4 +1,4 @@
-<div class="CITY h-full w-full flex flex-col gap-4 BlurDescription items-center p-4">
+<div class="city h-full w-full flex flex-col gap-4 blur-description items-center p-4">
   <h2 class="text-2xl">{{ date | date: 'EEEE' }}</h2>
 
   <div class="image w-full flex justify-center overflow-hidden">
@@ -8,7 +8,7 @@
       class="w-16 h-16 sm:w-20 sm:h-20 md:h-40 md:w-40 object-cover shadow-md hover:scale-105 transition overflow-hidden"
     />
   </div>
-  <div class="CityDescription w-full text-center">
+  <div class="city-description w-full text-center">
     <h2 class="font-bold text-3xl">{{ city }}</h2>
     <span class="text-2xl">{{ weather }}</span>
     <p class="text-6xl md:text-4xl">{{ temperature | number: '1.0-0' }} °C</p>

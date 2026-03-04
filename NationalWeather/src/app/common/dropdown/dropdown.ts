@@ -35,7 +35,8 @@ export class Dropdown implements OnInit {
   }
 
   onSelect(event: any) {
+    const selectedContinent = event.value.value
     console.log('Selected: ', event.value);
-    this.continentSelected.emit(event.value.value);
+    this.continentSelected.emit(selectedContinent);
   }
 }

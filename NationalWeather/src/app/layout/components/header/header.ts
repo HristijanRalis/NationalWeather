@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { CityWeather } from '../../../common/city-weather/city-weather';
-import { CityService } from '../../../city';
+import { CityService } from '../../../services/city.service';
 import { Dropdown } from '../../../common/dropdown/dropdown';
-import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { WeatherApi } from '../../../api/weather-api';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { WeatherApi } from '../../../api/weather-api.service';
 import { ContinentCity } from '../../../common/continent-city/continent-city';
+import { catchError, finalize, forkJoin, of } from 'rxjs';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ import { ContinentCity } from '../../../common/continent-city/continent-city';
 })
 export class Header {
   cityService = inject(CityService);
-
+  loadingService = inject(LoadingService);
   selectedContinent = '';
   citiesWeather: { name: string; temperature: number; icon: string }[] = [];
   cities = signal<string[]>([]);
@@ -50,24 +51,35 @@ export class Header {
       return;
     }
 
-    this.citiesWeather = [];
+    const requests = cities.map((city: string) =>
+      this.weatherApi.getWeather(city).pipe(
+        catchError((err) => {
+          console.log(`Error fetching ${city}`, err);
+          return of(null);
+        }),
+      ),
+    );
 
-    cities.forEach((city: string) => {
-      this.weatherApi.getWeather(city).subscribe({
-        next: (res: any) => {
-          if (res?.city && res?.list?.length) {
-            this.citiesWeather.push({
+    forkJoin(requests)
+      .pipe(
+        finalize(() => {
+          this.loadingService.stop();
+        }),
+      )
+      .subscribe({
+        next: (res: any[]) => {
+          this.citiesWeather = res
+            .filter((res) => res?.city && res?.list?.length)
+            .map((res) => ({
               name: res.city.name,
               temperature: res.list[0].main.temp_max,
               icon: res.list[0].weather[0].icon,
-            });
-          }
+            }));
         },
 
         error: (err) => {
-          console.log('Error fetching weather for', city, err);
+          console.log('Error fetching weather for', err);
         },
       });
-    });
   }
 }

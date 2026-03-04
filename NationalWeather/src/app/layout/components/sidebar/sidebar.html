@@ -1,7 +1,7 @@
-<div id="SIDEBAR" class="BlurBackground h-full p-4">
+<div id="sidebar" class="blur-background h-full p-4">
   <div class="container mx-auto py-4">
-    <div class="sidebarContent w-full flex-col">
-      <div class="sideBarInfo flex flex-col items-center">
+    <div class="sidebar-content w-full flex-col">
+      <div class="sidebar-info flex flex-col items-center">
         <h2 class="text-4xl">{{ name }} {{ country }}</h2>
         <p class="text-xl my-4">Max {{ temperature_max }}°C / Min {{ temperature_min }}°C</p>
         <p class="text-xl">{{ date | date: 'MMM d, y' }}</p>
@@ -9,9 +9,9 @@
         <img [src]="image" [alt]="image" class="w-50 h-50" />
         <p class="text-2xl mb-4">{{ clouds }}</p>
 
-        <div class="weatherDescription flex flex-wrap gap-3 p-4 w-full">
-          <div class="humidity BlurDescription flex-1 min-w-[45%] p-3">
-            <div class="weatherContent">
+        <div class="weather-description flex flex-wrap gap-3 p-4 w-full">
+          <div class="humidity blur-description flex-1 min-w-[45%] p-3">
+            <div class="weather-content">
               <h3>Humidity</h3>
               <p class="text-3xl">{{ humidity }}</p>
             </div>
@@ -19,8 +19,8 @@
               <i class="fa-solid fa-temperature-full fa-2x"></i>
             </div>
           </div>
-          <div class="preasure BlurDescription flex-1 min-w-[45%] p-3 flex flex-col">
-            <div class="weatherContent">
+          <div class="pressure blur-description flex-1 min-w-[45%] p-3 flex flex-col">
+            <div class="weather-content">
               <h3>Pressure</h3>
 
               <p class="text-3xl">{{ pressure }}</p>
@@ -29,8 +29,8 @@
               <i class="fa-solid fa-gauge-simple fa-2x"></i>
             </div>
           </div>
-          <div class="feelsLike BlurDescription flex-1 min-w-[45%] p-3">
-            <div class="weatherContent">
+          <div class="feels-like blur-description flex-1 min-w-[45%] p-3">
+            <div class="weather-content">
               <h3>FeelsLike</h3>
               <p class="text-3xl">{{ feelsLike }}</p>
             </div>
@@ -38,8 +38,8 @@
               <i class="fa-solid fa-umbrella fa-2x" style="color: white"></i>
             </div>
           </div>
-          <div class="wind BlurDescription flex-1 min-w-[45%] p-3">
-            <div class="weatherContent">
+          <div class="wind blur-description flex-1 min-w-[45%] p-3">
+            <div class="weather-content">
               <h3>Wind speed</h3>
 
               <p class="text-3xl">{{ windSpeed }}</p>

@@ -1,15 +1,22 @@
-<section id="HEADER" class="BlurBackground">
+<section id="header" class="blur-background">
   <div class="container mx-auto">
     <div class="header-container flex flex-col p-4 w-full">
       <article
         class="cityes w-full flex flex-wrap align-middle md:flex-nowrap items-center gap-4 justify-between"
       >
-        @for (city of citiesWeather; track city.name) {
-          <app-continent-city
-            [name]="city.name"
-            [temperature]="city.temperature"
-            [icon]="city.icon"
-          />
+        @if (loadingService.loading()) {
+          <div class="w-full flex justify-center text-center p-3 text-xl">
+            <i class="fa-solid fa-spinner fa-spin fa-3x mr-4"></i>
+            Loading cities, please wait for response!
+          </div>
+        } @else {
+          @for (city of citiesWeather; track city.name) {
+            <app-continent-city
+              [name]="city.name"
+              [temperature]="city.temperature"
+              [icon]="city.icon"
+            />
+          }
         }
 
         <!-- Continent cities -->
@@ -27,7 +34,7 @@
               #cityInput
               type="text"
               placeholder="Find City"
-              class="searchCity"
+              class="search-city"
               [value]="cityService.selectedCity()"
               (keyup.enter)="onCityChange(cityInput.value)"
               style="width: '100%'; outline: none"

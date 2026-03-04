@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Header } from '../../components/header/header';
 import { Sidebar } from '../../components/sidebar/sidebar';
 import { AdditionalInfo } from '../../components/additional-info/additional-info';
-import { CityService } from '../../../city';
+import { CityService } from '../../../services/city.service';
 
 @Component({
   selector: 'app-main-layout',

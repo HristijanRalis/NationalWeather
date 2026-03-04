@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, effect, inject } from '@angular/core';
-import { WeatherApi } from '../../../api/weather-api';
-import { CityService } from '../../../city';
+import { WeatherApi } from '../../../api/weather-api.service';
+import { CityService } from '../../../services/city.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -11,7 +11,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
-  private weatherService = inject(WeatherApi);
+  weatherApi = inject(WeatherApi);
   private cityService = inject(CityService);
 
   temperature_max: number = 0;
@@ -28,17 +28,20 @@ export class Sidebar {
   windSpeed: string = '';
   feelsLike: string = '';
   constructor() {
-    this.getWeather(this.cityService.selectedCity());
+  
     effect(() => {
       const city = this.cityService.selectedCity();
-      this.getWeather(city);
-      this.time = new Date();
+      if(!city) return;
+      
+      this.weatherApi.getWeather(city).subscribe((res: any) => {
+    
+      })
     });
   }
 
   getWeather(city: string) {
     if (!city) return;
-    this.weatherService.getWeather(city).subscribe((res: any) => {
+    this.weatherApi.getWeather(city).subscribe((res: any) => {
       if (!res.list || res.list.length === 0) return;
 
       const firstItem = res.list.find((item: any) => item.main && item.weather?.length > 0);

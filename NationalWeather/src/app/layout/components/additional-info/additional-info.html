@@ -1,19 +1,20 @@
-<div id="ADDITIONAL " class="h-full p-4 BlurBackground flex items-center justify-center">
-  <div class="conteinter mx-auto py-4">
+<div id="additional" class="h-full p-4 blur-background flex items-center justify-center">
+  <div class="containter mx-auto py-4">
     <div
-      class="AdditionalContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mx-auto lg:justify-items-center justify-items-stretch"
+      class="additional-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mx-auto lg:justify-items-center justify-items-stretch"
     >
-      <app-city-weather
-        *ngFor="let hour of forecast"
-        [city]="city ?? cityService.selectedCity()"
-        [temperature]="hour.main.temp"
-        [weather]="hour.weather[0].main"
-        [icon]="hour.weather[0].icon"
-        [date]="hour.dt_txt"
-      ></app-city-weather>
+      @for (hour of forecast(); track $index) {
+        <app-city-weather
+          [city]="city ?? cityService.selectedCity()"
+          [temperature]="hour.main.temp"
+          [weather]="hour.weather[0].main"
+          [icon]="hour.weather[0].icon"
+          [date]="hour.dt_txt"
+        ></app-city-weather>
+      }
     </div>
-    <div class="additionalInfoForCity flex items-center justify-end my-5 py-5">
-          <i class="fa-solid fa-arrow-right fa-3x arrow"></i>
+    <div class="additional-info-for-city flex items-center justify-end my-5 py-5">
+      <i class="fa-solid fa-arrow-right fa-3x arrow"></i>
     </div>
   </div>
 </div>
