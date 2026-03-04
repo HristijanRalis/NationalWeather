@@ -11,4 +11,8 @@ export class LoadingService {
   stop() {
     this.loading.set(false);
   }
+
+  start() {
+    this.loading.set(true);
+  }
 }
