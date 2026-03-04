@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output, effect, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { WeatherApi } from '../../../api/weather-api.service';
 import { CityService } from '../../../services/city.service';
 import { DatePipe } from '@angular/common';
-
+import { SidebarWeather } from '../../../models/weather.model';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -12,61 +12,49 @@ import { DatePipe } from '@angular/common';
 })
 export class Sidebar {
   weatherApi = inject(WeatherApi);
-  private cityService = inject(CityService);
+  cityService = inject(CityService);
 
-  temperature_max: number = 0;
-  temperature_min: number = 0;
+  loading = signal(false);
 
-  name: string = '';
-  country: string = '';
-  clouds: string = '';
-  date: string = '';
-  time: Date = new Date();
-  image: string = '';
-  pressure: string = '';
-  humidity: string = '';
-  windSpeed: string = '';
-  feelsLike: string = '';
+  weather = signal<SidebarWeather | null>(null);
+
   constructor() {
-  
     effect(() => {
       const city = this.cityService.selectedCity();
-      if(!city) return;
-      
-      this.weatherApi.getWeather(city).subscribe((res: any) => {
-    
-      })
+      if (!city) return;
+      this.getWeather(city);
     });
   }
 
   getWeather(city: string) {
-    if (!city) return;
-    this.weatherApi.getWeather(city).subscribe((res: any) => {
-      if (!res.list || res.list.length === 0) return;
+    this.loading.set(true);
 
-      const firstItem = res.list.find((item: any) => item.main && item.weather?.length > 0);
+    this.weatherApi.getWeather(city).subscribe({
+      next: (res: any) => {
+        if (!res?.list?.length) return;
 
-      if (!firstItem) return;
+        const firstItem = res.list[0];
+        if (!firstItem?.main || !firstItem.weather?.length) return;
 
-      this.temperature_max = firstItem.main.temp_max.toFixed(0);
-      this.temperature_min = firstItem.main.temp_min.toFixed(0);
+        const weatherDate: SidebarWeather = {
+          temperature_max: Math.round(firstItem.main.temp_max),
+          temperature_min: Math.round(firstItem.main.temp_min),
+          city: res.city?.name || '',
+          country: res.city?.country || '',
+          clouds: firstItem.weather[0].main,
+          iconUrl: `https://openweathermap.org/img/wn/${firstItem.weather[0].icon}@2x.png`,
+          feelsLike: firstItem.main.feels_like,
+          humidity: firstItem.main.humidity,
+          windSpeed: firstItem.wind.speed,
+          pressure: firstItem.main.pressure,
+          time: new Date(),
+          date: firstItem.dt_txt?.split(' ')[0] || '',
+        };
 
-      this.name = res.city?.name || '';
-      this.country = res.city?.country || '';
-
-      this.clouds = firstItem.weather[0].main;
-      this.image = `https://openweathermap.org/img/wn/${firstItem.weather[0].icon}@2x.png`;
-
-      // Additional information
-      this.feelsLike =firstItem.main.feels_like ;
-      this.humidity= firstItem.main.humidity;
-      this.windSpeed= firstItem.wind.speed;
-      this.pressure= firstItem.main.pressure;
-      this.time = new Date();
-
-      if (firstItem.dt_txt) {
-        this.date = firstItem.dt_txt.split(' ')[0];
-      }
+        this.weather.set(weatherDate);
+      },
+      error: (err) => console.log('Error fetching weather:', err),
+      complete: () => this.loading.set(false),
     });
   }
 }

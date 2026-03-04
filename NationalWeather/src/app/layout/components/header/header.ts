@@ -51,6 +51,8 @@ export class Header {
       return;
     }
 
+    this.loadingService.start();
+
     const requests = cities.map((city: string) =>
       this.weatherApi.getWeather(city).pipe(
         catchError((err) => {

@@ -2,10 +2,12 @@
   <div class="container mx-auto">
     <div class="header-container flex flex-col p-4 w-full">
       <article
-        class="cityes w-full flex flex-wrap align-middle md:flex-nowrap items-center gap-4 justify-between"
+        class="cityes w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
       >
         @if (loadingService.loading()) {
-          <div class="w-full flex justify-center text-center p-3 text-xl">
+          <div
+            class="col-span-full flex flex-col justify-center items-center text-center p-5 m-5 text-xl"
+          >
             <i class="fa-solid fa-spinner fa-spin fa-3x mr-4"></i>
             Loading cities, please wait for response!
           </div>
@@ -24,7 +26,7 @@
       <article class="selected-city w-full flex">
         <div class="inputs w-full flex flex-col items-center justify-center md:flex-row gap-6 p-4">
           <div
-            class="dropdown w-full flex flex-col items-center justify-center align-middle md:w-auto m-3 p-5"
+            class="dropdown w-full flex flex-col items-center justify-center align-middle md:w-auto m-3 p-10"
           >
             <app-dropdown (continentSelected)="onContinentSelect($event)" />
           </div>

@@ -1,9 +1,9 @@
 <div class="continent-city">
-  <div class="city-icon">
-    <img [src]="iconName" alt="icon" />
+  <div class="city-icon w-full flex justify-center">
+    <img [src]="iconName" alt="icon" class="w-40 h-40" />
   </div>
-  <div class="city-desc">
-    <h2>{{ name }}</h2>
-    <p>{{ temperature }} °C</p>
+  <div class="city-desc flex flex-col justify-centers text-center">
+    <h2 class="text-2xl">{{ name }}</h2>
+    <p class="text-3xl">{{ temperature }} °C</p>
   </div>
 </div>

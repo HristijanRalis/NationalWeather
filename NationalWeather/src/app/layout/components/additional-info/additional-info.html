@@ -5,7 +5,7 @@
     >
       @for (hour of forecast(); track $index) {
         <app-city-weather
-          [city]="city ?? cityService.selectedCity()"
+          [city]="cityService.selectedCity()"
           [temperature]="hour.main.temp"
           [weather]="hour.weather[0].main"
           [icon]="hour.weather[0].icon"
