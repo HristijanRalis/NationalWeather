@@ -1,3 +1,5 @@
+// INTERFACES
+
 export interface WeatherResponse {
   city: City;
   list: WeatherItem[];

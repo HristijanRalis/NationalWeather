@@ -30,9 +30,11 @@ export class Header {
     'south america': ['São Paulo', 'Buenos Aires', 'Lima', 'Bogota', 'Santiago'],
   };
 
+  // Validate city input before updating selected city
   onCityChange(city: string) {
     const trimCity = city.trim();
 
+    // Allowing only letters (Latin and Cyrillic) and spaces
     const lettersRegex = /^[A-Za-zА-Ша-ш\s]+$/;
 
     if (!lettersRegex.test(trimCity)) {
@@ -50,6 +52,7 @@ export class Header {
 
   constructor(private weatherApi: WeatherApi) {}
 
+  // Fetch weather data for cities in the selected continent
   onContinentSelect(continent: string) {
     if (!continent) return;
 
@@ -64,6 +67,7 @@ export class Header {
 
     this.loadingService.start();
 
+    // Create API request for all cities in the selected continent
     const requests = cities.map((city: string) =>
       this.weatherApi.getWeather(city).pipe(
         catchError((err) => {
@@ -73,6 +77,7 @@ export class Header {
       ),
     );
 
+    // Execute all API response after all responses
     forkJoin(requests)
       .pipe(
         finalize(() => {

@@ -1,8 +1,10 @@
+<!-- Additional content-->
 <div id="additional" class="h-full p-4 blur-background flex items-center justify-center">
   <div class="containter mx-auto py-4">
     <div
       class="additional-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mx-auto lg:justify-items-center justify-items-stretch"
     >
+      <!-- 5 days weather list-->
       @for (hour of forecast(); track $index) {
         <app-city-weather
           [city]="cityService.selectedCity()"

@@ -16,6 +16,7 @@ export class Dropdown implements OnInit {
   filteredItems: any[] = [];
   continents: any[] = [];
 
+  // Initialization full list of continents
   ngOnInit() {
     this.continents = [
       { label: 'Europe', value: 'Europe' },
@@ -27,6 +28,7 @@ export class Dropdown implements OnInit {
     ];
   }
 
+  // Filter continents
   filterItems(event: any) {
     const query = event.query.toLowerCase();
     this.filteredItems = this.continents.filter((item) =>
@@ -34,8 +36,9 @@ export class Dropdown implements OnInit {
     );
   }
 
+  // Handle selection of a continent and emit it to parent
   onSelect(event: any) {
-    const selectedContinent = event.value.value
+    const selectedContinent = event.value.value;
     console.log('Selected: ', event.value);
     this.continentSelected.emit(selectedContinent);
   }

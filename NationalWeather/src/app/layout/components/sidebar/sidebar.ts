@@ -11,14 +11,18 @@ import { SidebarWeather } from '../../../models/weather.model';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
+  //Injected services
   weatherApi = inject(WeatherApi);
   cityService = inject(CityService);
 
+  //Signal for loading
   loading = signal(false);
 
+  // Signal fo weather
   weather = signal<SidebarWeather | null>(null);
 
   constructor() {
+    // Runs whenever the selectedCity signal is changed
     effect(() => {
       const city = this.cityService.selectedCity();
       if (!city) return;
@@ -26,9 +30,11 @@ export class Sidebar {
     });
   }
 
+  // Function for find city weather
   getWeather(city: string) {
     this.loading.set(true);
 
+    // Fetch weather data from API for selected city
     this.weatherApi.getWeather(city).subscribe({
       next: (res: any) => {
         if (!res?.list?.length) return;

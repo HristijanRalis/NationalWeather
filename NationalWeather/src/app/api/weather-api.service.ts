@@ -8,6 +8,7 @@ import { WeatherResponse } from '../models/weather.model';
 export class WeatherApi {
   constructor(private http: HttpClient) {}
 
+  // Sending HTP Request toOpenWeather API for weather data
   getWeather(city: string) {
     return this.http.get<WeatherResponse>(
       `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=47807849a472c711513d74166813d7bf&units=metric`,
