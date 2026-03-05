@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ContinentService } from '../../services/continent.service';
 
 @Component({
   selector: 'app-dropdown',
@@ -16,16 +17,13 @@ export class Dropdown implements OnInit {
   filteredItems: any[] = [];
   continents: any[] = [];
 
+  continentService = inject(ContinentService);
+
   // Initialization full list of continents
   ngOnInit() {
-    this.continents = [
-      { label: 'Europe', value: 'Europe' },
-      { label: 'Asia', value: 'Asia' },
-      { label: 'Africa', value: 'Africa' },
-      { label: 'South America', value: 'South America' },
-      { label: 'North America', value: 'North America' },
-      { label: 'Australia', value: 'Australia' },
-    ];
+    this.continentService.getContinents().subscribe((data) => {
+      this.continents = data;
+    });
   }
 
   // Filter continents

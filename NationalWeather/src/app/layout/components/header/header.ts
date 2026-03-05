@@ -6,6 +6,7 @@ import { WeatherApi } from '../../../api/weather-api.service';
 import { ContinentCity } from '../../../common/continent-city/continent-city';
 import { catchError, finalize, forkJoin, of } from 'rxjs';
 import { LoadingService } from '../../../services/loading.service';
+import { ContinentCitiesService } from '../../../services/continent-cities-service';
 
 @Component({
   selector: 'app-header',
@@ -20,15 +21,6 @@ export class Header {
   selectedContinent = '';
   citiesWeather: { name: string; temperature: number; icon: string }[] = [];
   cities = signal<string[]>([]);
-
-  continentCities: { [key: string]: string[] } = {
-    europe: ['Skopje', 'London', 'Berlin', 'Paris', 'Belgrade'],
-    asia: ['Ankara', 'Moscow', 'New Delhi', 'Seoul', 'Beijing'],
-    africa: ['Cairo', 'Lagos', 'Tunis', 'Cape Town', 'Nairobi'],
-    australia: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide'],
-    'north america': ['New York', 'Toronto', 'Mexico City', 'Chicago', 'Los Angeles'],
-    'south america': ['São Paulo', 'Buenos Aires', 'Lima', 'Bogota', 'Santiago'],
-  };
 
   // Validate city input before updating selected city
   onCityChange(city: string) {
@@ -50,54 +42,58 @@ export class Header {
     this.cityService.selectedCity.set(trimCity);
   }
 
-  constructor(private weatherApi: WeatherApi) {}
+  constructor(
+    private weatherApi: WeatherApi,
+    private continentCitiesService: ContinentCitiesService,
+  ) {}
 
   // Fetch weather data for cities in the selected continent
   onContinentSelect(continent: string) {
     if (!continent) return;
 
-    const key = continent.trim().toLowerCase();
-    const cities = this.continentCities[key];
+    this.selectedContinent = continent;
 
-    if (!cities) {
-      console.log('No cities for continent!', continent);
-      this.citiesWeather = [];
-      return;
-    }
+    this.continentCitiesService.getCities(continent).subscribe((cities) => {
+      if (!cities || cities.length === 0) {
+        console.log('No cities for continent!', continent);
+        this.citiesWeather = [];
+        return;
+      }
 
-    this.loadingService.start();
+      this.loadingService.start();
 
-    // Create API request for all cities in the selected continent
-    const requests = cities.map((city: string) =>
-      this.weatherApi.getWeather(city).pipe(
-        catchError((err) => {
-          console.log(`Error fetching ${city}`, err);
-          return of(null);
-        }),
-      ),
-    );
+      // Create API request for all cities in the selected continent
+      const requests = cities.map((city: string) =>
+        this.weatherApi.getWeather(city).pipe(
+          catchError((err) => {
+            console.log(`Error fetching ${city}`, err);
+            return of(null);
+          }),
+        ),
+      );
 
-    // Execute all API response after all responses
-    forkJoin(requests)
-      .pipe(
-        finalize(() => {
-          this.loadingService.stop();
-        }),
-      )
-      .subscribe({
-        next: (res: any[]) => {
-          this.citiesWeather = res
-            .filter((res) => res?.city && res?.list?.length)
-            .map((res) => ({
-              name: res.city.name,
-              temperature: res.list[0].main.temp_max,
-              icon: res.list[0].weather[0].icon,
-            }));
-        },
+      // Execute all API response after all responses
+      forkJoin(requests)
+        .pipe(
+          finalize(() => {
+            this.loadingService.stop();
+          }),
+        )
+        .subscribe({
+          next: (res: any[]) => {
+            this.citiesWeather = res
+              .filter((res) => res?.city && res?.list?.length)
+              .map((res) => ({
+                name: res.city.name,
+                temperature: res.list[0].main.temp_max,
+                icon: res.list[0].weather[0].icon,
+              }));
+          },
 
-        error: (err) => {
-          console.log('Error fetching weather for', err);
-        },
-      });
+          error: (err) => {
+            console.log('Error fetching weather for', err);
+          },
+        });
+    });
   }
 }
